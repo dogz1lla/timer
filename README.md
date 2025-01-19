@@ -1,3 +1,5 @@
+![demo](timer.gif)
+
 # Description
 Countdown for your CLI.
 

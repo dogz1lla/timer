@@ -57,10 +57,18 @@ def main(n: int) -> None:
 
 if __name__ == "__main__":
     import argparse
+
+    def _validate_nseconds(nseconds: str):
+        """see https://stackoverflow.com/a/14117511"""
+        nseconds = int(nseconds)
+        if nseconds >= 360000:
+            raise argparse.ArgumentTypeError("must be less than 360000 (i.e. 100 hours)")
+        return nseconds
+
     parser = argparse.ArgumentParser(
         prog="main.py",
         description="CLI countdown",
     )
-    parser.add_argument("nseconds", help="Number of seconds to count down", type=int)
+    parser.add_argument("nseconds", help="Number of seconds to count down", type=_validate_nseconds)
     args = parser.parse_args()
     main(args.nseconds)

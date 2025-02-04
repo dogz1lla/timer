@@ -4,7 +4,7 @@
 Countdown for your CLI.
 
 # Features
-- set countdowns for up to 59 minutes 59 seconds;
+- set countdowns for up to 99 hours 59 minutes 59 seconds;
 - the timer starts blinking red during the last 10 seconds of the countdown;
 
 # Usage

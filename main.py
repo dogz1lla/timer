@@ -1,5 +1,5 @@
 import urwid
-from digits import get_minutes_seconds_string
+from digits import get_hours_minutes_seconds_string
 
 
 def exit_on_q(key: str) -> None:
@@ -31,13 +31,16 @@ def main(n: int) -> None:
         assert isinstance(_n, int)
         # calculate the minutes/seconds left
         n = max(_n, 0)
-        assert n < 3600, "the program cant handle timers of 1h or more"
+        assert n < 360000, "the program cant handle timers of 100h or more"
+        hours = n // 3600
+        n -= hours * 3600
         minutes = n // 60
         seconds = n % 60
         # get the timer string
+        h1, h2 = f'{hours:02}'
         m1, m2 = f'{minutes:02}'
         s1, s2 = f'{seconds:02}'
-        timer_str = get_minutes_seconds_string(m1, m2, s1, s2)
+        timer_str = get_hours_minutes_seconds_string(h1, h2, m1, m2, s1, s2)
         # render the new timer string on screen
         # NOTE: need to pass _n and not n because this will make the color blink even after n < 0
         color = get_color(_n)
@@ -46,7 +49,7 @@ def main(n: int) -> None:
         _loop.set_alarm_in(1, refresh, _n - 1)
     
     txt  = urwid.Text("")
-    fill = urwid.LineBox(urwid.Padding(urwid.Filler(txt, valign='middle'), align=urwid.CENTER, width=50))
+    fill = urwid.LineBox(urwid.Padding(urwid.Filler(txt, valign='middle'), align=urwid.CENTER, width=75))
     loop = urwid.MainLoop(fill, unhandled_input=unhandled_input)
     loop.set_alarm_in(0, refresh, n)
     loop.run()
@@ -55,7 +58,7 @@ def main(n: int) -> None:
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(
-        prog="chrono",
+        prog="main.py",
         description="CLI countdown",
     )
     parser.add_argument("nseconds", help="Number of seconds to count down", type=int)
